@@ -6,7 +6,7 @@ module.exports.hello = async event => {
   
   tagEvent("custom-tag", "hello world", { custom: { tag: "data" } });
 
-
+console.log(event)
  
 
 const axios = require('axios')
