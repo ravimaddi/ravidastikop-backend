@@ -1,7 +1,6 @@
 "use strict";
 const { tagEvent } = require("./serverless_sdk");
-const https = require('https');
-const accessToken = require('./token.json').access_token;
+
 
 module.exports.hello = async event => {
   
