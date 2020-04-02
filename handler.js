@@ -1,16 +1,22 @@
-"use strict";
-const { tagEvent } = require("./serverless_sdk");
 
 
-module.exports.hello = async event => {
-  
-  tagEvent("custom-tag", "hello world", { custom: { tag: "data" } });
-
-console.log(event)
- 
-
+const serverless = require('serverless-http');
+const express = require('express');
+const app = express();
+const cors = require('cors')
 const axios = require('axios')
-const accessToken = "AQW-EKEsqc0PgGsjML88Bddz8EaYyFpToo7kUxllXvor2wCzrq8OZgoD9fB9T_su6RQ8rNvMDwPp6-XfeAe_DL7Jl0w4csQFnytdnXN7ik4ey9Nt5ZqpwLUmpQWi8QlWBn5oHAKx0pbWpS6C9nS_PrHDcbfyFTmmptFUJTvbh6IT-OBuxUC521dtj4QERtRqfOahuI4JHiZSKi11nwCYL-HobJOKaFnUBGRsLuMMIX_Fo_kxZNUlPkTkA0y3wE_0P-KVSj6vBqEzbUf-E0jKTG-HEoCdz-1_hoHT1xpIjIUG0Z8IsYZqCTh_eULlMzcb1z8ALkKz28n-g0kA4dt-tDxxvKsOBA"
+const fs = require('fs')
+const accessToken= require('./token.json').access_token
+
+app.use(cors())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+console.log('lambda')
+
+app.get('/', async(req, res) => {
+
+  // const accessToken = "AQW-EKEsqc0PgGsjML88Bddz8EaYyFpToo7kUxllXvor2wCzrq8OZgoD9fB9T_su6RQ8rNvMDwPp6-XfeAe_DL7Jl0w4csQFnytdnXN7ik4ey9Nt5ZqpwLUmpQWi8QlWBn5oHAKx0pbWpS6C9nS_PrHDcbfyFTmmptFUJTvbh6IT-OBuxUC521dtj4QERtRqfOahuI4JHiZSKi11nwCYL-HobJOKaFnUBGRsLuMMIX_Fo_kxZNUlPkTkA0y3wE_0P-KVSj6vBqEzbUf-E0jKTG-HEoCdz-1_hoHT1xpIjIUG0Z8IsYZqCTh_eULlMzcb1z8ALkKz28n-g0kA4dt-tDxxvKsOBA"
 
 const getToken=async ()=>{
 
@@ -65,27 +71,39 @@ const result2 = await axios.post(`https://api.linkedin.com/v2/shares`,body,{
 })
 
 console.log(result2.data)
+return result2.data
 }
 
 
 const result3 = await getToken()
 
+   
+     res.send({result:'success' })
+ 
+
+ });
 
 
-  return {
-    statusCode: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-      "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
-    },
-    body: JSON.stringify(
-      {
-        message: "Go Serverless v1.0! Your function executed successfully!",
-        input: event
-      },
-      null,
-      2
-    )
-  };
+app.get('/api/token/:code', async(req, res) => {
+  const code = req.params.code
+  console.log('code',code)
+ const resAccestoken= await axios.post(`https://linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&redirect_uri=https://ravilinkedinshare.herokuapp.com/auth&client_id=81gad30pe28yok&client_secret=EpKnXhd7T5iwGDkW&code=${code}`,'')
 
-};
+console.log('resAccestoken.data',resAccestoken.data)
+let access_token = resAccestoken.data.access_token;
+			//	let expires_in = Date.now() + (JSON.parse(r.body).expires_in * 1000); // token expiry in epoc format
+				let token_json = '{"access_token":"' + access_token + '"}';
+const resWriteFile = await fs.writeFile("./token.json", token_json, e => {if(e){console.log('ERROR - ' + e)}else{
+  console.log('writefileSuccess')
+}});
+console.log('resWriteFile',resWriteFile)
+  res.send({result:resAccestoken.data});
+});
+
+
+//app.listen(3000, () => console.log(`Listening on: 3000`));
+module.exports.hello = serverless(app);
+
+
+
+
