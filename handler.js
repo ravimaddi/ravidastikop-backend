@@ -1,7 +1,8 @@
 
 const axios = require('axios')
 const accessToken= require('./token.json').access_token
-
+const AWS = require('aws-sdk');
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 
 module.exports.hello=async(event)=>{
