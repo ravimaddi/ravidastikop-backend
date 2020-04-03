@@ -87,7 +87,7 @@ const result3 = await getToken()
 app.get('/api/token/:code', async(req, res) => {
   const code = req.params.code
   console.log('code',code)
- const resAccestoken= await axios.post(`https://linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&redirect_uri=https://ravilinkedinshare.herokuapp.com/auth&client_id=81gad30pe28yok&client_secret=EpKnXhd7T5iwGDkW&code=${code}`,'')
+ const resAccestoken= await axios.post(`https://linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&redirect_uri=http://localhost:3000&client_id=81gad30pe28yok&client_secret=EpKnXhd7T5iwGDkW&code=${code}`,'')
 
 console.log('resAccestoken.data',resAccestoken.data)
 let access_token = resAccestoken.data.access_token;
