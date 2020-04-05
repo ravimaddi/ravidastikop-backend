@@ -1,5 +1,5 @@
 {
     "resource": "/",
-    "path": "/",
-    "httpMethod": "GET"
+    "path": "/api/token/:code",
+    "httpMethod": "POST"
   }
