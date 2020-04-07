@@ -97,7 +97,7 @@ const postToLinkedIn = async (accessToken) => {
     const blogToPost = blogposts.data.items[postNumber];
 
     const payload = {
-      title: blogToPost.title,
+      title: blogToPost.title ? blogToPost.title : "Digital India",
       text: "Click the below link to view my blog",
       shareUrl: blogToPost.url,
       shareThumbnailUrl: "",
