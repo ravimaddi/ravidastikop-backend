@@ -5,7 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const AWS = require("aws-sdk");
-AWS.config.update({ region: "us-east-1" });
+AWS.config.update({ region: "ap-south-1" });
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 app.use(cors());
 
@@ -15,7 +15,7 @@ app.post("/api", async (req, res) => {
   const code = req.query.code;
   console.log("code", code);
   const resAccestoken = await axios.post(
-    `https://linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&redirect_uri=https://ravilinkedinshare.herokuapp.com/auth&client_id=81gad30pe28yok&client_secret=EpKnXhd7T5iwGDkW&code=${code}`,
+    `https://linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&redirect_uri=https://master.d2ei6byri74h0s.amplifyapp.com/auth&client_id=81gad30pe28yok&client_secret=EpKnXhd7T5iwGDkW&code=${code}`,
     ""
   );
 

@@ -1,6 +1,6 @@
 const axios = require("axios");
 const AWS = require("aws-sdk");
-AWS.config.update({ region: "us-east-1" });
+AWS.config.update({ region: "ap-south-1" });
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 function getItem(params) {
@@ -81,8 +81,8 @@ const postToLinkedIn = async (accessToken) => {
   }
   console.log("randomstartMonth", startMonth);
   console.log("randomEndMonth", endMonth);
-  const startDate = `${startYear}-${startMonth}-31T00:00:00.52Z`;
-  const endDate = `${endYear}-${endMonth}-01T00:00:00.52Z`;
+  const startDate = `${startYear}-${startMonth}-01T00:00:00.52Z`;
+  const endDate = `${endYear}-${endMonth}-31T00:00:00.52Z`;
   const blogposts = await axios.get(
     `https://www.googleapis.com/blogger/v3/blogs/1839412217041753224/posts?key=${apiKey}&endDate=${endDate}&startDate=${startDate}`
   );

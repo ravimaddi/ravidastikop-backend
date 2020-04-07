@@ -13,7 +13,7 @@ provider:
 
   # you can overwrite defaults here
   stage: dev
-  region: us-east-1
+  region: ap-south-1
 
 custom:
   RaviLinkedInDynamoDBTable: "raviLinkedIn-table1-${self:provider.stage}"
@@ -29,8 +29,7 @@ iamRoleStatements:
       - dynamodb:DeleteItem
     Resource:
       - { "Fn::GetAtt": ["RaviLinkedInDynamoDBTable", "Arn"] }
-environment:
-  USERS_TABLE: ${self:custom.tableName}
+
 functions:
   hello:
     handler: handler.hello
