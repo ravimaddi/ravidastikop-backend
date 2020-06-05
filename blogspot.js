@@ -102,6 +102,7 @@ const postToLinkedIn = async (accessToken) => {
       shareUrl: blogToPost.url,
       shareThumbnailUrl: "",
     };
+    console.log("paylaod", payload);
 
     const result1 = await axios.get("https://api.linkedin.com/v2/me", {
       headers: {
