@@ -118,39 +118,31 @@ const postToLinkedIn = async (accessToken) => {
       owner: "urn:li:person:" + result1.data.id,
       subject: payload.title,
       text: {
-        text: payload.text, // max 1300 characters
+        text: payload.text // max 1300 characters
       },
       content: {
         contentEntities: [
           {
-            entityLocation: payload.shareUrl,
-            thumbnails: [
-              {
-                resolvedUrl: payload.shareThumbnailUrl,
-              },
-            ],
-          },
+            entityLocation: payload.shareUrl
+          }
         ],
         title: payload.title,
       },
       distribution: {
         linkedInDistributionTarget: {},
-      },
+      }
     };
 
-    const result2 = await axios.post(
-      `https://api.linkedin.com/v2/shares`,
-      body,
-      {
-        headers: {
-          Authorization: "Bearer " + accessToken,
-          "cache-control": "no-cache",
-          "X-Restli-Protocol-Version": "2.0.0",
-          "Content-Type": "application/json",
-          "x-li-format": "json",
-          "Content-Length": Buffer.byteLength(JSON.stringify(body)),
-        },
-      }
+    const result2 = await axios.post(`https://api.linkedin.com/v2/shares`, body, {
+      headers: {
+        Authorization: "Bearer " + accessToken,
+        "cache-control": "no-cache",
+        "X-Restli-Protocol-Version": "2.0.0",
+        "Content-Type": "application/json",
+        "x-li-format": "json",
+        "Content-Length": Buffer.byteLength(JSON.stringify(body)),
+      },
+    }
     );
 
     console.log(result2.data);
